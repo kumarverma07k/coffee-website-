@@ -283,4 +283,168 @@ document.addEventListener('DOMContentLoaded', function() {
             this.parentElement.style.transform = 'scale(1)';
         });
     });
+    
+    // Initialize feedback functionality
+    initializeFeedback();
 });
+
+// Feedback functionality
+function initializeFeedback() {
+    const feedbackButtons = document.querySelectorAll('.feedback-btn');
+    
+    feedbackButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const feedbackType = this.getAttribute('data-type');
+            sendFeedbackToWhatsApp(feedbackType);
+        });
+    });
+}
+
+// Send feedback to WhatsApp
+function sendFeedbackToWhatsApp(type) {
+    let message = '';
+    
+    switch(type) {
+        case 'general':
+            message = `🔥 *FEEDBACK FOR BTECHIAN COFFEE'S* 🔥
+
+Hi! I'd like to share my feedback about my experience with Btechian Coffee's:
+
+📝 *My Feedback:*
+[Please write your feedback here]
+
+⏰ *Feedback Time:* ${new Date().toLocaleString('en-IN', {
+                timeZone: 'Asia/Kolkata',
+                day: '2-digit',
+                month: '2-digit', 
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            })}
+
+Thank you for listening to your customers! ☕✨`;
+            break;
+            
+        case 'rating':
+            message = `⭐ *RATING FOR BTECHIAN COFFEE'S* ⭐
+
+Hi! I'd like to rate my experience with Btechian Coffee's:
+
+🌟 *My Rating:* [Please rate from 1-5 stars]
+
+📝 *What I liked:*
+[Please share what you enjoyed]
+
+💡 *What can be improved:*
+[Please share suggestions for improvement]
+
+⏰ *Rating Time:* ${new Date().toLocaleString('en-IN', {
+                timeZone: 'Asia/Kolkata',
+                day: '2-digit',
+                month: '2-digit', 
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            })}
+
+Thank you for asking for our opinion! ☕✨`;
+            break;
+            
+        case 'suggestion':
+            message = `💡 *SUGGESTIONS FOR BTECHIAN COFFEE'S* 💡
+
+Hi! I have some suggestions for Btechian Coffee's:
+
+🆕 *New Menu Ideas:*
+[Please suggest new items you'd like to see]
+
+🛠️ *Service Improvements:*
+[Please suggest how we can serve you better]
+
+📍 *Location Suggestions:*
+[Any new gym locations you'd like us to consider]
+
+⏰ *Suggestion Time:* ${new Date().toLocaleString('en-IN', {
+                timeZone: 'Asia/Kolkata',
+                day: '2-digit',
+                month: '2-digit', 
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            })}
+
+Thank you for helping us improve! ☕✨`;
+            break;
+            
+        default:
+            message = `Hi! I'd like to share my feedback about Btechian Coffee's. Thank you!`;
+    }
+    
+    const phoneNumber = '917379667920'; // Your WhatsApp number
+    const encodedMessage = encodeURIComponent(message);
+    const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+    
+    // Open WhatsApp in new tab
+    window.open(whatsappURL, '_blank');
+    
+    // Show feedback confirmation
+    showFeedbackConfirmation(type);
+}
+
+// Show feedback confirmation message
+function showFeedbackConfirmation(type) {
+    // Create confirmation message
+    const confirmationDiv = document.createElement('div');
+    confirmationDiv.className = 'feedback-confirmation';
+    confirmationDiv.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: #25D366;
+        color: white;
+        padding: 1rem 1.5rem;
+        border-radius: 10px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        z-index: 9999;
+        animation: slideInRight 0.3s ease-out;
+    `;
+    
+    let typeText = '';
+    switch(type) {
+        case 'general': typeText = 'General Feedback'; break;
+        case 'rating': typeText = 'Rating'; break;
+        case 'suggestion': typeText = 'Suggestion'; break;
+        default: typeText = 'Feedback';
+    }
+    
+    confirmationDiv.innerHTML = `
+        <strong>✅ ${typeText} Opened!</strong><br>
+        <small>WhatsApp opened with pre-filled message</small>
+    `;
+    
+    // Add to page
+    document.body.appendChild(confirmationDiv);
+    
+    // Auto-remove after 4 seconds
+    setTimeout(() => {
+        if (confirmationDiv.parentNode) {
+            confirmationDiv.remove();
+        }
+    }, 4000);
+}
+
+// Add CSS animation for confirmation
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes slideInRight {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+`;
+document.head.appendChild(style);
