@@ -225,6 +225,26 @@ body {
     background: #fff;
 }
 
+.menu-category {
+    margin-bottom: 4rem;
+}
+
+.menu-category:last-child {
+    margin-bottom: 0;
+}
+
+.category-title {
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #654321;
+    font-weight: 600;
+    padding: 1rem 0;
+    border-bottom: 3px solid #d4a574;
+    display: inline-block;
+    width: 100%;
+}
+
 .menu-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -573,6 +593,16 @@ body {
     min-height: 80px;
 }
 
+.form-group optgroup {
+    font-weight: bold;
+    color: #654321;
+}
+
+.form-group optgroup option {
+    font-weight: normal;
+    color: #333;
+}
+
 /* Contact Section */
 .contact {
     padding: 80px 0;
@@ -733,6 +763,10 @@ body {
         font-size: 2rem;
     }
 
+    .category-title {
+        font-size: 1.5rem;
+    }
+
     .order-content {
         padding: 0 1rem;
     }
@@ -768,6 +802,10 @@ body {
     .btn {
         width: 200px;
         text-align: center;
+    }
+
+    .category-title {
+        font-size: 1.3rem;
     }
 }
 
