@@ -35,26 +35,33 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 document.getElementById('orderForm').addEventListener('submit', function(e) {
     e.preventDefault();
     
-    // Get form values
-    const customerName = document.getElementById('customerName').value.trim();
-    const customerPhone = document.getElementById('customerPhone').value.trim();
-    const gymAddress = document.getElementById('gymAddress').value.trim();
-    const menuItem = document.getElementById('menuItem').value;
+    // Set loading state
+    setLoadingState(true);
     
-    // Validate form fields
-    if (!validateForm(customerName, customerPhone, gymAddress, menuItem)) {
-        return;
-    }
-    
-    // Create WhatsApp message
-    const message = createWhatsAppMessage(customerName, customerPhone, gymAddress, menuItem);
-    
-    // Send to WhatsApp
-    sendToWhatsApp(message);
-    
-    // Show success message and reset form
-    showSuccessMessage();
-    resetForm();
+    // Small delay to show loading state
+    setTimeout(() => {
+        // Get form values
+        const customerName = document.getElementById('customerName').value.trim();
+        const customerPhone = document.getElementById('customerPhone').value.trim();
+        const gymAddress = document.getElementById('gymAddress').value.trim();
+        const menuItem = document.getElementById('menuItem').value;
+        
+        // Validate form
+        if (!validateForm(customerName, customerPhone, gymAddress, menuItem)) {
+            setLoadingState(false);
+            return;
+        }
+        
+        // Create and send WhatsApp message
+        const message = createWhatsAppMessage(customerName, customerPhone, gymAddress, menuItem);
+        sendToWhatsApp(message);
+        
+        // Show success and reset
+        showSuccessMessage();
+        resetForm();
+        setLoadingState(false);
+        
+    }, 1000); // 1 second delay for better UX
 });
 
 // Form validation function
@@ -222,39 +229,6 @@ function setLoadingState(isLoading) {
         submitButton.style.opacity = '1';
     }
 }
-
-// Enhanced form submission with loading state
-document.getElementById('orderForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    // Set loading state
-    setLoadingState(true);
-    
-    // Small delay to show loading state
-    setTimeout(() => {
-        // Get form values
-        const customerName = document.getElementById('customerName').value.trim();
-        const customerPhone = document.getElementById('customerPhone').value.trim();
-        const gymAddress = document.getElementById('gymAddress').value.trim();
-        const menuItem = document.getElementById('menuItem').value;
-        
-        // Validate form
-        if (!validateForm(customerName, customerPhone, gymAddress, menuItem)) {
-            setLoadingState(false);
-            return;
-        }
-        
-        // Create and send WhatsApp message
-        const message = createWhatsAppMessage(customerName, customerPhone, gymAddress, menuItem);
-        sendToWhatsApp(message);
-        
-        // Show success and reset
-        showSuccessMessage();
-        resetForm();
-        setLoadingState(false);
-        
-    }, 1000); // 1 second delay for better UX
-});
 
 // Navbar scroll effect (optional enhancement)
 window.addEventListener('scroll', function() {
